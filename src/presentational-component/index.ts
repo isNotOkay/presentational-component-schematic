@@ -12,11 +12,12 @@ import {
     url
 } from '@angular-devkit/schematics';
 
+// TODO: Is there a better way to locate all files into the src/app folder?
+const sourceRoot: string = 'src/app';
+
 export function presentationalComponent(_options: {[key: string]: any}): Rule {
     return (_tree: Tree, _context: SchematicContext) => {
-        console.log(_options);
-        // TODO: Is there a better way to locate all files into the src/app folder?
-        _options.path = `src/app/${_options.path}`;
+        _options.path = _options.path ? `${sourceRoot}/${_options.path}` : sourceRoot;
 
         const templateSource = apply(
             url('./files'), [
