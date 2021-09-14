@@ -6,48 +6,43 @@ import {
     MergeStrategy,
     mergeWith, move,
     Rule,
-    SchematicContext,
+    SchematicContext, Source,
     template,
     Tree,
     url
 } from '@angular-devkit/schematics';
 
-// TODO: Is there a better way to locate all files into the src/app folder?
-const sourceRoot: string = 'src/app';
+const widgetsPath: string = 'src/app/dashboard/widgets';
+const storiesPath: string = 'src/stories';
+const moduleName: string = 'dashboard';
 
 export function presentationalComponent(_options: {[key: string]: any}): Rule {
     return (_tree: Tree, _context: SchematicContext) => {
-        _options.path = _options.path ? `${sourceRoot}/${_options.path}` : sourceRoot;
-
-        const templateSource = apply(
-            url('./files/angular'), [
-                template({
-                    ..._options,
-                    ...strings
-                }),
-                move(_options.path)
-            ]
-        );
-
-        const templateSourceStorybook = apply(
-            url('./files/storybook'), [
-                template({
-                    ..._options,
-                    ...strings
-                }),
-                move('src/stories')
-            ]
-        );
+        const templateSource: Source = mergeFiles('./files/angular', widgetsPath, _options);
+        const templateSourceStorybook: Source = mergeFiles('./files/storybook', storiesPath, _options);
 
         return chain([
             externalSchematic('@schematics/angular', 'component', {
                 name: _options.name,
-                path: _options.path,
-                module: _options.module,
-                skipImport: _options.skipImport
+                path: widgetsPath,
+                module: moduleName,
+                skipImport: _options.skipImport,
+                export: true
             }),
             mergeWith(templateSource, MergeStrategy.Overwrite),
             mergeWith(templateSourceStorybook, MergeStrategy.Overwrite)
         ]);
     };
+}
+
+function mergeFiles(sourcePath: string, destinationPath: string, _options: {[key: string]: any}): Source {
+    return apply(
+        url(sourcePath), [
+            template({
+                ..._options,
+                ...strings
+            }),
+            move(destinationPath)
+        ]
+    );
 }

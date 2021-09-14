@@ -1,9 +1,7 @@
 import {
     ChangeDetectionStrategy,
-    Component, EventEmitter,
-    Input,
+    Component,
     OnInit,
-    Output
 } from '@angular/core';
 
 @Component({
@@ -13,8 +11,6 @@ import {
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class <%= classify(name) %>Component implements OnInit {
-    @Input() public exampleInput: string;
-    @Output() public exampleOutput: EventEmitter<string> = new EventEmitter<string>();
 
     constructor() {
     }
@@ -22,6 +18,4 @@ export class <%= classify(name) %>Component implements OnInit {
     public ngOnInit(): void {
     }
 }
-
-
 

@@ -2,8 +2,8 @@ import { moduleMetadata } from '@storybook/angular';
 import { Meta, Story } from '@storybook/angular/types-6-0';
 
 export default {
-    title: 'Custom/<%= classify(name) %>',
-    component: <%= classify(name) %>,
+    title: 'Dashboard/<%= classify(name) %>',
+    component: <%= classify(name) %>Component,
     decorators: [
         moduleMetadata({
             imports: [
@@ -13,8 +13,8 @@ export default {
     ]
 } as Meta;
 
-const Template: Story<<%= classify(name) %>> = (args: <%= classify(name) %>) => ({
-    component: <%= classify(name) %>,
+const Template: Story<<%= classify(name) %>Component> = (args: <%= classify(name) %>Component) => ({
+    component: <%= classify(name) %>Component,
     props: args
 });
 
