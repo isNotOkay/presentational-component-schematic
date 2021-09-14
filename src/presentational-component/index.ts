@@ -20,12 +20,22 @@ export function presentationalComponent(_options: {[key: string]: any}): Rule {
         _options.path = _options.path ? `${sourceRoot}/${_options.path}` : sourceRoot;
 
         const templateSource = apply(
-            url('./files'), [
+            url('./files/angular'), [
                 template({
                     ..._options,
                     ...strings
                 }),
                 move(_options.path)
+            ]
+        );
+
+        const templateSourceStorybook = apply(
+            url('./files/storybook'), [
+                template({
+                    ..._options,
+                    ...strings
+                }),
+                move('src/stories')
             ]
         );
 
@@ -36,7 +46,8 @@ export function presentationalComponent(_options: {[key: string]: any}): Rule {
                 module: _options.module,
                 skipImport: _options.skipImport
             }),
-            mergeWith(templateSource, MergeStrategy.Overwrite)
+            mergeWith(templateSource, MergeStrategy.Overwrite),
+            mergeWith(templateSourceStorybook, MergeStrategy.Overwrite)
         ]);
     };
 }
