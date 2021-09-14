@@ -3,6 +3,9 @@
   "$id": "PresentationalComponentSchema",
   "type": "object",
   "properties": {
+    "path": {
+      "type": "string"
+    },
     "name": {
       "type": "string",
       "$default": {
