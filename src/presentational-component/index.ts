@@ -32,7 +32,8 @@ export function presentationalComponent(_options: {[key: string]: any}): Rule {
             externalSchematic('@schematics/angular', 'component', {
                 name: _options.name,
                 path: _options.path,
-                skipImport: true
+                module: _options.module,
+                skipImport: _options.skipImport
             }),
             mergeWith(templateSource, MergeStrategy.Overwrite)
         ]);
